@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Listado } from "./Listado";
 
 export const Formulario = ({ guiaTel }) => {
-  const [persons, setPersons] = useState(guiaTel);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newTel, setNewTel] = useState("");
+
+  useEffect(() => {
+    console.log("effect guiaTel");
+    setPersons(guiaTel);
+  }, [guiaTel]);
 
   const handlePesonChamge = (e) => {
     setNewName(e.target.value);
@@ -14,7 +19,6 @@ export const Formulario = ({ guiaTel }) => {
     setNewTel(e.target.value);
   };
 
-  
   const addName = (e) => {
     e.preventDefault();
     const nameObject = {
@@ -29,6 +33,7 @@ export const Formulario = ({ guiaTel }) => {
       alert(`${newName} ya existe en la guía telefónica`);
     }
   };
+  console.log("peersons en form", persons);
   return (
     <div>
       <form onSubmit={addName}>

@@ -1,6 +1,7 @@
 import React from "react";
 
-export const Listado = ({persons}) => {
+export const Listado = ({ persons }) => {
+  // console.log("persons", persons);
   return (
     <div>
       <h2>Numbers</h2>
