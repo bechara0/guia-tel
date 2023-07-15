@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Listado } from "./Listado";
+import { create } from "../services/controls";
 
 export const Formulario = ({ guiaTel }) => {
   const [persons, setPersons] = useState([]);
@@ -26,11 +27,15 @@ export const Formulario = ({ guiaTel }) => {
       number: newTel,
     };
     if (persons.findIndex((person) => person.name === newName) === -1) {
-      setPersons(persons.concat(nameObject));
-      setNewName("");
-      setNewTel("");
+      create(nameObject).then((returnedName) => {
+        setPersons(persons.concat(nameObject));
+        setNewName("");
+        setNewTel("");
+      });
     } else {
-      alert(`${newName} ya existe en la guía telefónica`);
+      alert(
+        `${newName} ya existe en la guía telefónica, o bien no no ha ingresado nada`
+      );
     }
   };
   console.log("peersons en form", persons);

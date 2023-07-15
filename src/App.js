@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { Filtro } from "./components/Filtro";
 import { Formulario } from "./components/Formulario";
-import axios from "axios";
+import { getAll } from "./services/controls";
 
 const App = () => {
   const [guiaTel, setGuiaTel] = useState([]);
 
   useEffect(() => {
     console.log("Effect!");
-    axios.get("http://localhost:3001/persons").then((response) => {
+    getAll().then((initialPhoneGuide) => {
       console.log("promesa cumplida con éxito");
-      setGuiaTel(response.data);
+      setGuiaTel(initialPhoneGuide);
     });
   }, []);
 
