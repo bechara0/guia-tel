@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Listado } from "./Listado";
-import { create } from "../services/controls";
+
+import { create, deletePhone } from "../services/controls";
 
 export const Formulario = ({ guiaTel }) => {
   const [persons, setPersons] = useState([]);
@@ -25,6 +25,7 @@ export const Formulario = ({ guiaTel }) => {
     const nameObject = {
       name: newName,
       number: newTel,
+      id: Date.now(),
     };
     if (persons.findIndex((person) => person.name === newName) === -1) {
       create(nameObject).then((returnedName) => {
@@ -37,6 +38,14 @@ export const Formulario = ({ guiaTel }) => {
         `${newName} ya existe en la guía telefónica, o bien no no ha ingresado nada`
       );
     }
+  };
+  const deleteByGuide = (id) => {
+    const secure = window.confirm("Seguro desea eliminar el registro?");
+    secure
+      ? deletePhone(id).then(
+          setPersons(persons.filter((person) => person.id !== id))
+        )
+      : alert("eliminación cancelada");
   };
   console.log("peersons en form", persons);
   return (
@@ -53,7 +62,21 @@ export const Formulario = ({ guiaTel }) => {
           <button type="submit">add</button>
         </div>
       </form>
-      <Listado persons={persons} />
+      <div>
+        <h2>Numbers</h2>
+        <ul>
+          {persons.map((person) => (
+            <div key={person.id}>
+              <li>
+                {person.name}: {person.number}
+              </li>
+              <button type="submit" onClick={() => deleteByGuide(person.id)}>
+                Delete
+              </button>
+            </div>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
